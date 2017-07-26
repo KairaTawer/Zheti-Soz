@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.PairMatchingPreviewActivity">
+
+    <Button
+        android:id="@+id/button_close"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:background="@drawable/close_icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="26dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/button_close"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="5dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/matching_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pair_matching"
+            android:textSize="30sp"
+            android:textColor="#33455B"
+            android:layout_marginTop="40dp" />
+        
+        <TextView
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pair_matching_description"
+            android:textSize="18sp"
+            android:textColor="#5C6F80"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:id="@+id/button_start"
+            android:layout_height="wrap_content"
+            android:text="@string/start_button"
+            android:background="@drawable/background_next_button"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

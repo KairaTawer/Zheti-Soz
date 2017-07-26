@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zerotoone.n17r.zhetisoz">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>﻿
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/zhetisoz_icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.PairMatchingPreviewActivity"
+            android:parentActivityName=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.PairMatchingActivity"
+            android:parentActivityName=".Activities.PairMatchingPreviewActivity" />
+        <activity
+            android:name=".Activities.AfterPairMatchingActivity"
+            android:parentActivityName=".Activities.PairMatchingPreviewActivity" />
+
+        <receiver
+            android:name=".Models.MyAlarmReceiver"
+            android:process=":remote" >
+        </receiver>
+
+        <service
+            android:name=".Services.RefreshWordsTask"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".Activities.TestingPreviewActivity" />
+        <activity android:name=".Activities.TestingActivity" />
+        <activity android:name=".Activities.TestingResultActivity" />
+        <activity android:name=".Activities.ResultListActivity"></activity>
+    </application>
+
+</manifest>

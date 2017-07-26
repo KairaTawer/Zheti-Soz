@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zerotoone.n17r.zhetisoz.Activities.ResultListActivity"
+    android:id="@+id/main_layout">
+
+    <com.tmall.ultraviewpager.UltraViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="12dp"
+            android:id="@+id/imageView2"
+            android:layout_above="@+id/textView"
+            android:src="@drawable/arrow_down"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Кері қайту үшін төмен түсіріңіз"
+            android:id="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:baselineAligned="false"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+
+</RelativeLayout>

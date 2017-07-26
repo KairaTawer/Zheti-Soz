@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Zhetisoz</string>
+    <string name="favorite">Favorite</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_fragment">First Fragment</string>
+    <string name="first_fragment_title">Сөз жаттау</string>
+    <string name="pair_matching">Сөз сәйкестендіру</string>
+    <string name="qanda"><![CDATA[Сұрақ & Жауап]]></string>
+    <string name="trueorfalse"><![CDATA[Дұрыс & Қате]]></string>
+    <string name="soon">Жуырда</string>
+    <string name="second_fragment_title">Бүгінгі сөздер</string>
+    <string name="today_date">26 маусым, 2017</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet</string>
+    <string name="introduction_translate">Кіріспе</string>
+    <string name="introduction_pronunciation">/ˌɪntrəˈdʌkʃən/</string>
+    <string name="introduction">Introduction</string>
+    <string name="next_button">Келесі</string>
+    <string name="next">Келесі</string>
+    <string name="settings_kazakh">Баптаулар</string>
+    <string name="rating">Play Market-та рейтинг қою</string>
+    <string name="contactus">Байланыс</string>
+    <string name="aboutus">Біз туралы</string>
+    <string name="share_with_friends">Достармен бөліс:</string>
+    <string name="pair_matching_description">Сөздерді және олардың аудармаларын жұп болып таңдау керек</string>
+    <string name="start_button">Бастау</string>
+    <string name="zharaisyn">Жарайсың!</string>
+    <string name="pair_matching_result">Сен барлық жұптарды 16,5 секунд ішінде тауып үлгердің</string>
+    <string name="retry">Жаңадан</string>
+    <string name="qa_description">Берілген сөзге сәйкес аударманы белгілеу керек</string>
+    <string name="example">7</string>
+    <string name="example_question">Introduction сөзінің аудармасын табыңыз</string>
+
+    <string-array name="values">
+        <item>5 сөз</item>
+        <item>10 сөз</item>
+        <item>15 сөз</item>
+        <item>20 сөз</item>
+    </string-array>
+
+</resources>

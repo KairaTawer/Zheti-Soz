@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        applicationId "com.zerotoone.n17r.zhetisoz"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile('com.alibaba.android:ultraviewpager:1.0.4@aar') {
+        transitive = true
+    }
+    compile files('libs/opencsv-2.2.jar')
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    compile 'com.wefika:horizontal-picker:1.1.1'
+    compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
+}
