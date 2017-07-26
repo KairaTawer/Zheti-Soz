@@ -30,22 +30,25 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/button_close"
         android:layout_centerInParent="true"
-        android:textColor="#F87D7F"
-        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/tv_timer"
-        android:text="+1 секунд"
-        android:singleLine="false"
         android:alpha="0"
-        android:layout_marginLeft="10dp" />
+        android:singleLine="false"
+        android:text="@string/fine"
+        android:textColor="#F87D7F"
+        android:textSize="18sp" />
 
-    <GridLayout
+    <TableLayout
         android:id="@+id/pair_matching_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/button_close"
+        android:layout_margin="16dp"
         android:columnCount="3"
         android:rowCount="4"
-        android:layout_margin="16dp"></GridLayout>
+        android:stretchColumns="*">
+
+    </TableLayout>
 
 
 </RelativeLayout>

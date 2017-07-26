@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zhetisoz</string>
+    <string name="app_name">Zheti söz</string>
     <string name="favorite">Favorite</string>
     <string name="duplicate">Duplicate</string>
     <string name="settings">Settings</string>
@@ -33,6 +33,7 @@
     <string name="qa_description">Берілген сөзге сәйкес аударманы белгілеу керек</string>
     <string name="example">7</string>
     <string name="example_question">Introduction сөзінің аудармасын табыңыз</string>
+    <string name="fine">+1 секунд</string>
 
     <string-array name="values">
         <item>5 сөз</item>

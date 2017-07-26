@@ -3,23 +3,28 @@ package com.zerotoone.n17r.zhetisoz.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.TransformationMethod;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.zerotoone.n17r.zhetisoz.Models.CustomCard;
@@ -34,6 +39,7 @@ import java.util.List;
 public class PairMatchingActivity extends AppCompatActivity {
 
     TextView timerTextView;
+    TableLayout mMatchingContainer;
 
     float millis = 0.0f;
     TextView mFine;
@@ -76,7 +82,7 @@ public class PairMatchingActivity extends AppCompatActivity {
             }
         });
 
-        final GridLayout mMatchingContainer = (GridLayout) findViewById(R.id.pair_matching_container);
+        mMatchingContainer = (TableLayout) findViewById(R.id.pair_matching_container);
 
         List<String[]> strings = getRandom6Pairs();
 
@@ -89,23 +95,37 @@ public class PairMatchingActivity extends AppCompatActivity {
 
         Collections.shuffle(cards);
 
-        for (int i = 0; i < cards.size(); i++) {
-            final Button p = new Button(this,null,R.style.styleForPairMatching);
+        for (int i = 0; i < 4; i++) {
+            TableRow row = new TableRow(this);
+            row.setWeightSum(3);
+            TableLayout.LayoutParams param = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.WRAP_CONTENT
+            );
+            param.weight = 1;
+            row.setLayoutParams(param);
 
-            mMatchingContainer.addView(p);
+            for (int j = 0; j < 3; j++) {
+                final Button p = new Button(this, null, R.style.styleForPairMatching);
 
-            p.setText(cards.get(i).getWord());
-            p.setTag(cards.get(i).getTag());
+                setDefaultStyleToButton(p);
 
-            setDefaultStyleToButton(p);
+                row.addView(p);
 
-            p.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedCard = p;
-                    doTurn();
-                }
-            });
+                p.setText(cards.get(3 * i + j).getWord());
+                p.setTag(cards.get(3 * i + j).getTag());
+
+                p.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectedCard = p;
+                        doTurn();
+                    }
+                });
+
+            }
+
+            mMatchingContainer.addView(row);
         }
 
     }
@@ -157,12 +177,13 @@ public class PairMatchingActivity extends AppCompatActivity {
     }
 
     public boolean checkIfGameIsWon(Button item) {
-        GridLayout mlayout = (GridLayout)item.getParent();
 
-        int count = mlayout.getChildCount();
-        for(int i = 0 ; i <count ; i++){
-            View child = mlayout.getChildAt(i);
-            if(child.isEnabled()) return false;
+        for(int i = 0 ; i < 4; i++){
+            TableRow row = (TableRow) mMatchingContainer.getChildAt(i);
+            for (int j = 0; j < 3; j++) {
+                Button b = (Button) row.getChildAt(j);
+                if(b.isEnabled()) return false;
+            }
         }
 
         return true;
@@ -196,7 +217,8 @@ public class PairMatchingActivity extends AppCompatActivity {
 
         } else {
 
-            GridLayout container = (GridLayout)selectedCard.getParent();
+            TableRow row = (TableRow)selectedCard.getParent();
+            TableLayout container = (TableLayout) row.getParent();
 
             Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake_anim);
             container.startAnimation(shake);
@@ -234,22 +256,24 @@ public class PairMatchingActivity extends AppCompatActivity {
 
     public void setDefaultStyleToButton(Button p) {
 
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT,
+                TableRow.LayoutParams.MATCH_PARENT
+        );
+        params.leftMargin = 10;
+        params.rightMargin = 10;
+        params.topMargin = 10;
+        params.weight = 1;
+
         p.setTransformationMethod(null);
         p.setTextSize(18);
         p.setTextColor(Color.parseColor("#6665FF"));
         p.setGravity(Gravity.CENTER);
+        p.setLayoutParams(params);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             p.setBackground(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_item));
         } else p.setBackgroundDrawable(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_item));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ((GridLayout.LayoutParams) p.getLayoutParams()).columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-            ((GridLayout.LayoutParams) p.getLayoutParams()).rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-            ((GridLayout.LayoutParams) p.getLayoutParams()).leftMargin = 10;
-            ((GridLayout.LayoutParams) p.getLayoutParams()).rightMargin = 10;
-            ((GridLayout.LayoutParams) p.getLayoutParams()).topMargin = 10;
-        }
 
     }
 
