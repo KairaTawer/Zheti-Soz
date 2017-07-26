@@ -1,72 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/example_question"
-        android:textColor="#334553"
-        android:textSize="24sp"
+        android:layout_below="@id/button_close"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/button_close" />
+        android:text="@string/example_question"
+        android:textColor="#334553"
+        android:textSize="24sp" />
 
-    <GridLayout
+    <TableLayout
         android:id="@+id/answers"
         android:layout_width="match_parent"
-        android:layout_below="@id/tv_question"
         android:layout_height="match_parent"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/tv_question"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginTop="10dp"
+        android:columnCount="2"
+        android:paddingBottom="10dp"
+        android:rowCount="2"
+        android:stretchColumns="*">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:textColor="#5C6F80"
-            android:background="@drawable/background_item"
-            android:gravity="center"
-            android:textSize="18sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_marginTop="5dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"
-            android:textColor="#5C6F80"
-            android:background="@drawable/background_item"
-            android:gravity="center"
-            android:textSize="18sp" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_column="0"
+                android:background="@drawable/background_item"
+                android:gravity="center"
+                android:text="New Button"
+                android:textColor="#5C6F80"
+                android:textSize="18sp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button3"
-            android:textColor="#5C6F80"
-            android:background="@drawable/background_item"
-            android:gravity="center"
-            android:textSize="18sp" />
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:background="@drawable/background_item"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="New Button"
+                android:textColor="#5C6F80"
+                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp" />
+        </TableRow>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button4"
-            android:textColor="#5C6F80"
-            android:background="@drawable/background_item"
-            android:gravity="center"
-            android:textSize="18sp" />
-    </GridLayout>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_marginTop="5dp">
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_weight="1"
+                android:background="@drawable/background_item"
+                android:gravity="center"
+                android:text="New Button"
+                android:textColor="#5C6F80"
+                android:textSize="18sp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:background="@drawable/background_item"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="New Button"
+                android:textColor="#5C6F80"
+                android:textSize="18sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp" />
+        </TableRow>
+
+    </TableLayout>
 
 </RelativeLayout>

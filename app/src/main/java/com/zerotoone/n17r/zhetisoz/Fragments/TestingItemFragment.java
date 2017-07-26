@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.zerotoone.n17r.zhetisoz.Activities.TestingActivity;
@@ -45,7 +47,7 @@ public class TestingItemFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView mQuestionText = (TextView) view.findViewById(R.id.tv_question);
-        final GridLayout mAnswers = (GridLayout) view.findViewById(R.id.answers);
+        final TableLayout mAnswers = (TableLayout) view.findViewById(R.id.answers);
 
         Bundle bundle = this.getArguments();
 
@@ -58,20 +60,28 @@ public class TestingItemFragment extends Fragment {
 
         mQuestionText.setText(questionText + " сөзінің аудармасын табыңыз");
 
-        for (int i = 0; i < 4; i++) {
-            final Button button = (Button) mAnswers.getChildAt(i);
-            button.setText(allAnswers.get(i));
-            setDefaultStyleToButton(button);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    someEventListener.someEvent(questionText,correctAnswer,button.getText().toString());
-                    for (int i = 0; i < mAnswers.getChildCount(); i++) {
-                        mAnswers.getChildAt(i).setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_item));
+        for (int i = 0; i < 2; i++) {
+            TableRow row = (TableRow) mAnswers.getChildAt(i);
+            for (int j = 0; j < 2; j++) {
+                final Button button = (Button) row.getChildAt(j);
+                button.setText(allAnswers.get(2*i + j));
+                button.setTransformationMethod(null);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        someEventListener.someEvent(questionText,correctAnswer,button.getText().toString());
+                        for (int i = 0; i < 2; i++) {
+                            TableRow eachRow = (TableRow) mAnswers.getChildAt(i);
+                            for (int j = 0; j < 2; j++) {
+                                Button eachButton = (Button) eachRow.getChildAt(j);
+                                eachButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_item));
+                            }
+                        }
+                        button.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_item_selected));
                     }
-                    button.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_item_selected));
-                }
-            });
+                });
+            }
+
         }
 
     }
@@ -84,20 +94,6 @@ public class TestingItemFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onSomeEventListener");
         }
-    }
-
-    public void setDefaultStyleToButton(Button p) {
-
-        p.setTransformationMethod(null);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ((GridLayout.LayoutParams) p.getLayoutParams()).columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-            ((GridLayout.LayoutParams) p.getLayoutParams()).rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-            ((GridLayout.LayoutParams) p.getLayoutParams()).leftMargin = 10;
-            ((GridLayout.LayoutParams) p.getLayoutParams()).rightMargin = 10;
-            ((GridLayout.LayoutParams) p.getLayoutParams()).bottomMargin = 10;
-        }
-
     }
 
 }
