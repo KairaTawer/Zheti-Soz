@@ -1,13 +1,10 @@
 package com.zerotoone.n17r.zhetisoz.Fragments;
 
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 import com.zerotoone.n17r.zhetisoz.Activities.MainActivity;
 import com.zerotoone.n17r.zhetisoz.R;
@@ -24,6 +20,8 @@ import com.zerotoone.n17r.zhetisoz.R;
 import java.util.List;
 
 public class ThirdFragment extends Fragment {
+
+    public static final String APP_URL = "http://bit.ly/get-zheti-soz-android";
 
     private OnFragmentInteractionListener listener;
 
@@ -55,8 +53,8 @@ public class ThirdFragment extends Fragment {
             public void onClick(View v) {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, "Zheti Söz қосымшасы арқылы ағылшын деңгеіңді жетілдір, сілтеме арқылы жазып ал! \n"
-                                        + "");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, "Zheti Söz қосымшасы арқылы ағылшын деңгейіңді жетілдір, сілтеме арқылы жазып ал! \n"
+                        + APP_URL);
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
         });
@@ -69,7 +67,7 @@ public class ThirdFragment extends Fragment {
                 shareIntent
                         .putExtra(
                                 Intent.EXTRA_STREAM,
-                                Uri.parse("android.resource://com.zerotoone.n17r.zhetisoz/drawable/frame/"));
+                                Uri.parse("android.resource://com.zerotoone.n17r.zhetisoz/drawable/commercial/"));
                 shareIntent.setPackage("com.instagram.android");
                 try {
                     startActivity(shareIntent);
@@ -82,20 +80,31 @@ public class ThirdFragment extends Fragment {
         linkEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                sendIntent.setType("plain/text");
-                sendIntent.setData(Uri.parse("kairatawer@gmail.com"));
-                sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-                sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "kairatawer@gmail.com" });
-                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Жеті сөз");
-                startActivity(sendIntent);
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/html");
+                final PackageManager pm = getContext().getPackageManager();
+                final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
+                String className = null;
+                for (final ResolveInfo info : matches) {
+                    if (info.activityInfo.packageName.equals("com.google.android.gm")) {
+                        className = info.activityInfo.name;
+
+                        if(className != null && !className.isEmpty()){
+                            break;
+                        }
+                    }
+                }
+                emailIntent.setClassName("com.google.android.gm", className);
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"kairatawer@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Zheti Söz");
+                startActivity(emailIntent);
             }
         });
 
         linkRate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
+                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.zerotoone.n17r.zhetisoz");
                 Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                 goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -104,7 +113,7 @@ public class ThirdFragment extends Fragment {
                     startActivity(goToMarket);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://play.google.com/store/apps/details?id=" + getContext().getPackageName())));
+                            Uri.parse(APP_URL)));
                 }
             }
         });

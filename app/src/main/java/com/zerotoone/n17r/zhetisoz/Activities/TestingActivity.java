@@ -2,28 +2,23 @@ package com.zerotoone.n17r.zhetisoz.Activities;
 
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zerotoone.n17r.zhetisoz.Fragments.TestingItemFragment;
 import com.zerotoone.n17r.zhetisoz.Models.AnsweredQuestion;
 import com.zerotoone.n17r.zhetisoz.Models.CircleProgressBar;
 import com.zerotoone.n17r.zhetisoz.Models.Question;
 import com.zerotoone.n17r.zhetisoz.Models.UsedWordsContract;
-import com.zerotoone.n17r.zhetisoz.Models.WordsDbHelper;
+import com.zerotoone.n17r.zhetisoz.Models.UsedWordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.R;
 
 import java.util.ArrayList;
@@ -145,22 +140,20 @@ public class TestingActivity extends AppCompatActivity implements TestingItemFra
     public List<Question> getRandomQuestions(int count) {
         List<Question> questions = new ArrayList<>();
 
-        WordsDbHelper mDbHelper = new WordsDbHelper(this);
-        SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
+        UsedWordsDbHelper mUsedDBHelper = new UsedWordsDbHelper(this);
+        SQLiteDatabase mUsedDb = mUsedDBHelper.getReadableDatabase();
+
         ArrayList<Integer> alreadyUsed = new ArrayList<>();
         Random rnd = new Random();
 
-        SharedPreferences prefs = this.getSharedPreferences("ZHETISOZ_APP", Context.MODE_PRIVATE);
-        int progress = prefs.getInt("PROGRESS", 7);
-
         for (int i = 0; i < count; i++) {
             Question question = new Question();
-            int randomId = rnd.nextInt(progress);
+            int randomId = rnd.nextInt(mUsedDb.rawQuery("select * from words",null).getCount());
             while (alreadyUsed.contains(randomId) || randomId == 0) {
-                randomId = rnd.nextInt(progress);
+                randomId = rnd.nextInt(mUsedDb.rawQuery("select * from words",null).getCount());
             }
             alreadyUsed.add(randomId);
-            Cursor mCursor = mDb.rawQuery(
+            Cursor mCursor = mUsedDb.rawQuery(
                     "SELECT * FROM " + UsedWordsContract.WordsEntry.TABLE_NAME + " WHERE " + UsedWordsContract.WordsEntry._ID + " = " + randomId,
                     null);
             mCursor.moveToFirst();
@@ -170,7 +163,7 @@ public class TestingActivity extends AppCompatActivity implements TestingItemFra
             question.setCorrectAnswer(correctAnswer);
             List<String> incorrectAnswers = new ArrayList<>();
 
-            mCursor = mDb.rawQuery(
+            mCursor = mUsedDb.rawQuery(
                     "SELECT * FROM " + UsedWordsContract.WordsEntry.TABLE_NAME + " WHERE " + UsedWordsContract.WordsEntry.COLUMN_NAME_KAZAKH + "<>'" + correctAnswer + "' ORDER BY RANDOM() LIMIT 3",
                     null);
             while(mCursor.moveToNext()) {

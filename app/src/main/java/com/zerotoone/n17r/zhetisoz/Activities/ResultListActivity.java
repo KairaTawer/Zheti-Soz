@@ -53,10 +53,10 @@ public class ResultListActivity extends AppCompatActivity {
         });
     }
 
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    public static final int SWIPE_MIN_DISTANCE = 120;
+    public static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+    public class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
@@ -64,7 +64,7 @@ public class ResultListActivity extends AppCompatActivity {
                 intent.putParcelableArrayListExtra("RESULT_LIST",answeredQuestions);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-                return true; // Top to bottom
+                return true;
             }
 
             return false;

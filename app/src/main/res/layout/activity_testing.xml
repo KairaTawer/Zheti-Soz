@@ -55,6 +55,7 @@
         android:id="@+id/button_next"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         android:background="#6665FF"
         android:text="@string/next"

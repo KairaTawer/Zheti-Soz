@@ -37,16 +37,18 @@
             android:layout_marginTop="40dp"
             android:text="@string/qanda"
             android:textColor="#33455B"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="224dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="@string/qa_description"
             android:textColor="#5C6F80"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <com.wefika.horizontalpicker.HorizontalPicker
             android:id="@+id/picker"
@@ -61,7 +63,9 @@
             app:dividerSize="10dp"
             app:sideItems="1"
             app:values="@array/values"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp" />
 
         <Button
             android:id="@+id/button_start"
@@ -70,6 +74,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/background_next_button"
             android:text="@string/start_button"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.zerotoone.n17r.zhetisoz.Activities.MainActivity;
 import com.zerotoone.n17r.zhetisoz.Activities.PairMatchingPreviewActivity;
-import com.zerotoone.n17r.zhetisoz.Activities.TestingPreviewActivity;
 import com.zerotoone.n17r.zhetisoz.R;
 
 public class AfterPairMatchingBestResultFragment extends Fragment {

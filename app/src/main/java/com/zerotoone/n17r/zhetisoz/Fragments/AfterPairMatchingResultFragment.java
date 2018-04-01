@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zerotoone.n17r.zhetisoz.Activities.MainActivity;
-import com.zerotoone.n17r.zhetisoz.Activities.PairMatchingActivity;
 import com.zerotoone.n17r.zhetisoz.Activities.PairMatchingPreviewActivity;
 import com.zerotoone.n17r.zhetisoz.R;
 
@@ -38,7 +37,7 @@ public class AfterPairMatchingResultFragment extends Fragment {
         float i = 0.0f;
         if(bundle != null) {i = bundle.getFloat("SCORE", 0.0f);}
 
-        longResult.setText(String.format("Сен барлық жұптарды %5.1f секунд ішінде тауып үлгердің", i).replace(".", ","));
+        longResult.setText(String.format("Сен барлық жұптарды \n%5.1f секунд ішінде тауып үлгердің", i).replace(".", ","));
 
         Button mButtonRetry = (Button) view.findViewById(R.id.button_retry);
 

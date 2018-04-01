@@ -35,26 +35,30 @@
             android:text="@string/pair_matching"
             android:textSize="30sp"
             android:textColor="#33455B"
-            android:layout_marginTop="40dp" />
+            android:layout_marginTop="40dp"
+            android:textStyle="bold" />
         
         <TextView
-            android:layout_width="224dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="@string/pair_matching_description"
             android:textSize="18sp"
             android:textColor="#5C6F80"
             android:gravity="center_horizontal"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:textStyle="bold" />
 
         <Button
             android:layout_width="wrap_content"
             android:id="@+id/button_start"
             android:layout_height="wrap_content"
             android:text="@string/start_button"
+            android:textAllCaps="false"
             android:background="@drawable/background_next_button"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
 

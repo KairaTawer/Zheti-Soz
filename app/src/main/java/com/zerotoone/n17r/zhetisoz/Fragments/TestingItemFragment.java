@@ -9,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.zerotoone.n17r.zhetisoz.Activities.TestingActivity;
 import com.zerotoone.n17r.zhetisoz.R;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class TestingItemFragment extends Fragment {
     public TestingItemFragment() {}
 
     public interface onSomeEventListener {
-        public void someEvent(String question,String correctAnswer,String selectedAnswer);
+        void someEvent(String question,String correctAnswer,String selectedAnswer);
     }
 
     onSomeEventListener someEventListener;
@@ -58,13 +56,13 @@ public class TestingItemFragment extends Fragment {
 
         Collections.shuffle(allAnswers);
 
-        mQuestionText.setText(questionText + " сөзінің аудармасын табыңыз");
+        mQuestionText.setText(capitalize(questionText) + " сөзінің аудармасын табыңыз");
 
         for (int i = 0; i < 2; i++) {
             TableRow row = (TableRow) mAnswers.getChildAt(i);
             for (int j = 0; j < 2; j++) {
                 final Button button = (Button) row.getChildAt(j);
-                button.setText(allAnswers.get(2*i + j));
+                button.setText(capitalize(allAnswers.get(2*i + j)));
                 button.setTransformationMethod(null);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -74,10 +72,14 @@ public class TestingItemFragment extends Fragment {
                             TableRow eachRow = (TableRow) mAnswers.getChildAt(i);
                             for (int j = 0; j < 2; j++) {
                                 Button eachButton = (Button) eachRow.getChildAt(j);
-                                eachButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_item));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    eachButton.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_item));
+                                } else eachButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.background_item));
                             }
                         }
-                        button.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_item_selected));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            button.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.background_item_selected));
+                        } else button.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.background_item_selected));
                     }
                 });
             }
@@ -94,6 +96,10 @@ public class TestingItemFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement onSomeEventListener");
         }
+    }
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 
 }

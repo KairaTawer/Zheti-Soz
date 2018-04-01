@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zerotoone.n17r.zhetisoz.Activities.ResultListActivity;
 import com.zerotoone.n17r.zhetisoz.Models.AnsweredQuestion;
 import com.zerotoone.n17r.zhetisoz.R;
 
@@ -46,7 +48,6 @@ public class ResultListAdapter extends PagerAdapter {
 
         AnsweredQuestion currentQuestion = this.resultList.get(position);
 
-        LinearLayout mContainer = (LinearLayout) view.findViewById(R.id.container);
         LinearLayout background = (LinearLayout) view.findViewById(R.id.layout_detector);
         ImageView detector = (ImageView) view.findViewById(R.id.detector);
 
@@ -55,8 +56,8 @@ public class ResultListAdapter extends PagerAdapter {
         TextView mIncorrectAnswer = (TextView) view.findViewById(R.id.incorrect_answer);
 
         mQuestion.setText(currentQuestion.getQuestion() + " сөзінің аудармасын табыңыз");
-        mCorrectAnswer.setText(currentQuestion.getCorrectAnswer());
-        if(currentQuestion.getCorrectAnswer().equals(currentQuestion.getSelectedAnswer())) {
+        mCorrectAnswer.setText(capitalize(currentQuestion.getCorrectAnswer()));
+        if(currentQuestion.getCorrectAnswer().toLowerCase().equals(currentQuestion.getSelectedAnswer().toLowerCase())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 background.setBackground(ContextCompat.getDrawable(view.getContext(),R.drawable.background_ok));
             } else background.setBackgroundDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.background_ok));
@@ -67,7 +68,7 @@ public class ResultListAdapter extends PagerAdapter {
                 background.setBackground(ContextCompat.getDrawable(view.getContext(),R.drawable.background_x));
             } else background.setBackgroundDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.background_x));
             detector.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.x_icon));
-            mIncorrectAnswer.setText(currentQuestion.getSelectedAnswer());
+            mIncorrectAnswer.setText(capitalize(currentQuestion.getSelectedAnswer()));
         }
 
         container.addView(view);
@@ -78,6 +79,10 @@ public class ResultListAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 
 }

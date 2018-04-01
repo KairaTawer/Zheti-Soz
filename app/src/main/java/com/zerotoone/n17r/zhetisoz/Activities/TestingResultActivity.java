@@ -2,10 +2,8 @@ package com.zerotoone.n17r.zhetisoz.Activities;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.gesture.GestureOverlayView;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,15 +11,12 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zerotoone.n17r.zhetisoz.Adapters.ResultListAdapter;
 import com.zerotoone.n17r.zhetisoz.Models.AnsweredQuestion;
 import com.zerotoone.n17r.zhetisoz.Models.CircleProgressBar;
 import com.zerotoone.n17r.zhetisoz.Models.RandomCircle;
@@ -32,6 +27,7 @@ import java.util.ArrayList;
 public class TestingResultActivity extends AppCompatActivity {
 
     ArrayList<AnsweredQuestion> answeredQuestions = new ArrayList<>();
+    public static final String APP_URL = "http://bit.ly/get-zheti-soz-android";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +38,17 @@ public class TestingResultActivity extends AppCompatActivity {
         TextView mPercentage = (TextView) findViewById(R.id.tv_progress);
         TextView mResultLevel = (TextView) findViewById(R.id.tv_result_level);
         Button mButtonRetry = (Button) findViewById(R.id.button_retry);
+        FrameLayout mCirclesContainer = (FrameLayout) findViewById(R.id.circles_container);
         Button mButtonClose = (Button) findViewById(R.id.button_close);
         RelativeLayout mSwipeContainer = (RelativeLayout) findViewById(R.id.mainLayout);
         LinearLayout shareButton = (LinearLayout) findViewById(R.id.button_share);
-        FrameLayout mCircleContainer = (FrameLayout) findViewById(R.id.circle_container);
 
         answeredQuestions = getIntent().getParcelableArrayListExtra("RESULT_LIST");
         final int questionsCount = answeredQuestions.size();
         int correctCount = 0;
 
         for(AnsweredQuestion each:answeredQuestions) {
-            if(each.getCorrectAnswer().equals(each.getSelectedAnswer())) {
+            if(each.getCorrectAnswer().toLowerCase().equals(each.getSelectedAnswer().toLowerCase())) {
                 correctCount++;
             }
             Log.i("SELECTED",each.getSelectedAnswer());
@@ -85,11 +81,6 @@ public class TestingResultActivity extends AppCompatActivity {
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
 
-        for (int i = 0; i < 7; i++) {
-            RandomCircle circle = new RandomCircle(this);
-            mCircleContainer.addView(circle);
-        }
-
         final int finalCorrectCount = correctCount;
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,9 +88,9 @@ public class TestingResultActivity extends AppCompatActivity {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 if(finalCorrectCount != 0)
-                    sharingIntent.putExtra(Intent.EXTRA_TEXT,"Мен " + questionsCount + " сұрақтың " + finalCorrectCount + " сұрағына дұрыс жауап бердім. Менен көбірек ұпай жинай аласың ба? Онда мына сілтемені басып, қосымшаны жазып ал!");
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT,"Мен " + questionsCount + " сұрақтың " + finalCorrectCount + " сұрағына дұрыс жауап бердім. Менен көбірек ұпай жинай аласың ба? Онда мына сілтемені басып, қосымшаны жазып ал!\n" + APP_URL);
                 else
-                    sharingIntent.putExtra(Intent.EXTRA_TEXT, "Мына сілтемені басып, қосымшаны жазып ал!");
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, "Мына сілтемені басып, қосымшаны жазып ал!\n" + APP_URL);
 
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
@@ -127,6 +118,11 @@ public class TestingResultActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        for (int i = 0; i < 8; i++) {
+            RandomCircle mCircle = new RandomCircle(this);
+            mCirclesContainer.addView(mCircle);
+        }
 
     }
 

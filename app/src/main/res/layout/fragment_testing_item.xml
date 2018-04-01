@@ -14,7 +14,9 @@
         android:layout_marginTop="10dp"
         android:text="@string/example_question"
         android:textColor="#334553"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold" />
 
     <TableLayout
         android:id="@+id/answers"

@@ -1,14 +1,13 @@
 package com.zerotoone.n17r.zhetisoz.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.wefika.horizontalpicker.HorizontalPicker;
+import com.zerotoone.n17r.zhetisoz.Models.UsedWordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.R;
 
 public class TestingPreviewActivity extends AppCompatActivity {
@@ -22,12 +21,12 @@ public class TestingPreviewActivity extends AppCompatActivity {
 
         final CharSequence cs[];
 
-        SharedPreferences mSharedPreferences = this.getSharedPreferences("ZHETISOZ_APP", Context.MODE_PRIVATE);
-        int progress = mSharedPreferences.getInt("PROGRESS", 7);
+        UsedWordsDbHelper mHelper = new UsedWordsDbHelper(this);
+        SQLiteDatabase mDb = mHelper.getReadableDatabase();
 
-        if(progress == 7) {
+        if(mDb.rawQuery("select* from words",null).getCount() == 7) {
             cs = new CharSequence[]{"5 сөз"};
-        } else if(progress == 14) {
+        } else if(mDb.rawQuery("select* from words",null).getCount() == 14) {
             cs = new CharSequence[]{"5 сөз","10 сөз"};
         } else {
             cs = new CharSequence[]{"5 сөз","10 сөз","15 сөз","20 сөз"};

@@ -15,7 +15,6 @@ import com.zerotoone.n17r.zhetisoz.R;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 public class CustomPageAdapter extends PagerAdapter {
 
@@ -48,9 +47,9 @@ public class CustomPageAdapter extends PagerAdapter {
         TextView kazakhWord = (TextView) view.findViewById(R.id.tv_word_kazakh);
         FrameLayout circlesContainer = (FrameLayout) view.findViewById(R.id.circles_container);
 
-        englishWord.setText(this.dataObjectList.get(position).getInEnglish());
+        englishWord.setText(capitalize(this.dataObjectList.get(position).getInEnglish()));
         transcript.setText(this.dataObjectList.get(position).getInEnglish());
-        kazakhWord.setText(this.dataObjectList.get(position).getInKazakh());
+        kazakhWord.setText(capitalize(this.dataObjectList.get(position).getInKazakh()));
 
         textToSpeech = new TextToSpeech(view.getContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -82,6 +81,10 @@ public class CustomPageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    private String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
     }
 
 }

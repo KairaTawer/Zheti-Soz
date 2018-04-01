@@ -33,17 +33,19 @@
             android:layout_marginTop="40dp"
             android:text="@string/zharaisyn"
             android:textColor="#33455B"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/result"
-            android:layout_width="191dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="@string/pair_matching_result"
             android:textColor="#5C6F80"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button_retry"
@@ -52,8 +54,10 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/background_next_button"
             android:text="@string/retry"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginBottom="15dp" />
 
     </LinearLayout>
 

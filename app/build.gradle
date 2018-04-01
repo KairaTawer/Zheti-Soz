@@ -8,8 +8,8 @@ android {
         applicationId "com.zerotoone.n17r.zhetisoz"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 9
+        versionName "1.0.6"
     }
     buildTypes {
         release {
@@ -30,8 +30,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
-    compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.wefika:horizontal-picker:1.1.1'
-    compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
 }

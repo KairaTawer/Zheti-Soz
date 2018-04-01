@@ -6,19 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.tmall.ultraviewpager.UltraViewPager;
-import com.tmall.ultraviewpager.transformer.UltraDepthScaleTransformer;
-import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 import com.zerotoone.n17r.zhetisoz.Adapters.CustomPageAdapter;
 import com.zerotoone.n17r.zhetisoz.Models.CustomPageTransformer;
 import com.zerotoone.n17r.zhetisoz.Models.DataObject;
 import com.zerotoone.n17r.zhetisoz.Models.UsedWordsContract;
-import com.zerotoone.n17r.zhetisoz.Models.WordsDbHelper;
+import com.zerotoone.n17r.zhetisoz.Models.UsedWordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.R;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class SecondFragment extends Fragment {
 
         List<DataObject> list = new ArrayList<>();
 
-        WordsDbHelper mDbHelper = new WordsDbHelper(getContext());
+        UsedWordsDbHelper mDbHelper = new UsedWordsDbHelper(getContext());
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -91,7 +90,7 @@ public class SecondFragment extends Fragment {
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ultraViewPager.setCurrentItem(ultraViewPager.getCurrentItem() + 1,true);
+                if(ultraViewPager.getCurrentItem() != 6) ultraViewPager.setCurrentItem(ultraViewPager.getCurrentItem() + 1,true);
             }
         });
 

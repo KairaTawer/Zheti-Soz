@@ -3,33 +3,29 @@ package com.zerotoone.n17r.zhetisoz.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.TransformationMethod;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.zerotoone.n17r.zhetisoz.Models.CustomCard;
 import com.zerotoone.n17r.zhetisoz.Models.UsedWordsContract;
-import com.zerotoone.n17r.zhetisoz.Models.WordsDbHelper;
+import com.zerotoone.n17r.zhetisoz.Models.UsedWordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.R;
 
 import java.util.ArrayList;
@@ -40,22 +36,13 @@ public class PairMatchingActivity extends AppCompatActivity {
 
     TextView timerTextView;
     TableLayout mMatchingContainer;
+    boolean canClick = false;
 
     float millis = 0.0f;
     TextView mFine;
 
     Handler timerHandler = new Handler();
-    Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            millis = millis + .1f;
-
-            timerTextView.setText(String.format("%5.1f", millis).replace('.',','));
-
-            timerHandler.postDelayed(this,100);
-        }
-    };
+    Runnable timerRunnable;
 
     Button selectedCard1;
     Button selectedCard2;
@@ -70,14 +57,43 @@ public class PairMatchingActivity extends AppCompatActivity {
 
         mFine = (TextView) findViewById(R.id.tv_fine);
         timerTextView = (TextView) findViewById(R.id.tv_timer);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        timerHandler.postDelayed(timerRunnable, 0);
+        timerRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                millis = millis + .1f;
+
+                timerTextView.setText(String.format("%5.1f", millis).replace('.', ','));
+
+                if(millis < 240f) {timerHandler.postDelayed(this, 100);}
+                else {
+                    timerHandler.removeCallbacks(timerRunnable);
+                    AlertDialog dialog = builder.setMessage("Ойынды бітіруге тым көп уақыт жараттыңыз, басынан бастап көріңіз")
+                            .setTitle("Әттең!")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    startActivity(new Intent(PairMatchingActivity.this, PairMatchingPreviewActivity.class));
+                                }
+                            }).create();
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            ((AlertDialog)dialog).getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.parseColor("#6665FF"));
+                        }
+                    });
+                    dialog.show();
+                }
+            }
+        };
 
         Button mButtonClose = (Button) findViewById(R.id.button_close);
 
         mButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timerHandler.removeCallbacks(timerRunnable);
                 startActivity(new Intent(PairMatchingActivity.this,PairMatchingPreviewActivity.class));
             }
         });
@@ -95,6 +111,7 @@ public class PairMatchingActivity extends AppCompatActivity {
 
         Collections.shuffle(cards);
 
+        int delay = 0;
         for (int i = 0; i < 4; i++) {
             TableRow row = new TableRow(this);
             row.setWeightSum(3);
@@ -111,6 +128,15 @@ public class PairMatchingActivity extends AppCompatActivity {
                 setDefaultStyleToButton(p);
 
                 row.addView(p);
+                p.setAlpha(0.0f);
+
+                p.animate().alpha(1.0f).setDuration(500).setStartDelay(delay).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        p.setAlpha(1.0f);
+                    }
+                });
 
                 p.setText(cards.get(3 * i + j).getWord());
                 p.setTag(cards.get(3 * i + j).getTag());
@@ -122,17 +148,25 @@ public class PairMatchingActivity extends AppCompatActivity {
                         doTurn();
                     }
                 });
+                delay = delay + 100;
 
             }
 
             mMatchingContainer.addView(row);
         }
+        timerHandler.postDelayed(timerRunnable, 1600);
+        timerHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                canClick = true;
+            }
+        },1600);
 
     }
 
     public List<String[]> getRandom6Pairs() {
         List<String[]> result = new ArrayList<>();
-        WordsDbHelper mDbHelper = new WordsDbHelper(this);
+        UsedWordsDbHelper mDbHelper = new UsedWordsDbHelper(this);
         SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
         Cursor mCursor = mDb.rawQuery("SELECT * FROM " + UsedWordsContract.WordsEntry.TABLE_NAME + " ORDER BY RANDOM() LIMIT 7",null);
         mCursor.moveToFirst();
@@ -143,13 +177,13 @@ public class PairMatchingActivity extends AppCompatActivity {
     }
 
     public void doTurn() {
-        if(selectedCard1 == null && selectedCard2 == null) {
+        if(selectedCard1 == null && selectedCard2 == null && canClick) {
             selectedCard1 = selectedCard;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 selectedCard.setBackground(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_selected_item));
             } else selectedCard.setBackgroundDrawable(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_selected_item));
         }
-        else if(selectedCard1 != null && selectedCard1 != selectedCard && selectedCard2 == null) {
+        else if(selectedCard1 != null && selectedCard1 != selectedCard && selectedCard2 == null && canClick) {
             selectedCard2 = selectedCard;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -163,7 +197,7 @@ public class PairMatchingActivity extends AppCompatActivity {
                     checkCards();
                 }
             }, 200);
-        } else if(selectedCard == selectedCard1) {
+        } else if(selectedCard == selectedCard1 && canClick) {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -191,22 +225,17 @@ public class PairMatchingActivity extends AppCompatActivity {
     }
 
     public void checkCards() {
-        if(selectedCard1.getTag().equals(selectedCard2.getTag())) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                selectedCard1.setBackground(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_correct_item));
-                selectedCard2.setBackground(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_correct_item));
-            } else {
-                selectedCard1.setBackgroundDrawable(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_correct_item));
-                selectedCard2.setBackgroundDrawable(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_correct_item));
-            }
+        if(selectedCard1.getTag().equals(selectedCard2.getTag()) && canClick) {
 
             selectedCard1.setEnabled(false);
             selectedCard2.setEnabled(false);
 
+            selectedCard1.animate().alpha(0.0f).setDuration(200).setStartDelay(0).setListener(new AnimatorListenerAdapter() {
+            });
+            selectedCard2.animate().alpha(0.0f).setDuration(200).setStartDelay(0).setListener(new AnimatorListenerAdapter() {});
 
             if(checkIfGameIsWon(selectedCard2)) {
-                timerHandler.removeCallbacksAndMessages(null);
+                timerHandler.removeCallbacks(timerRunnable);
                 Intent toResultActivity = new Intent(PairMatchingActivity.this,AfterPairMatchingActivity.class);
                 toResultActivity.putExtra("RESULT_EXTRA",millis);
                 startActivity(toResultActivity);
@@ -215,13 +244,13 @@ public class PairMatchingActivity extends AppCompatActivity {
             selectedCard1 = null;
             selectedCard2 = null;
 
-        } else {
+        } else if(canClick) {
 
-            TableRow row = (TableRow)selectedCard.getParent();
-            TableLayout container = (TableLayout) row.getParent();
+            canClick = false;
 
             Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake_anim);
-            container.startAnimation(shake);
+            selectedCard1.startAnimation(shake);
+            selectedCard2.startAnimation(shake);
             millis = millis + 1.0f;
 
             mFine.animate().alpha(1.0f).setDuration(600).setListener(new AnimatorListenerAdapter() {
@@ -248,6 +277,13 @@ public class PairMatchingActivity extends AppCompatActivity {
                     setDefaultStyleToButton(selectedCard2);
                     selectedCard1 = null;
                     selectedCard2 = null;
+                    Handler newHandler =  new Handler();
+                    newHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            canClick = true;
+                        }
+                    },300);
                 }
             }, 200);
 
@@ -257,19 +293,23 @@ public class PairMatchingActivity extends AppCompatActivity {
     public void setDefaultStyleToButton(Button p) {
 
         TableRow.LayoutParams params = new TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
+                0,
                 TableRow.LayoutParams.MATCH_PARENT
         );
-        params.leftMargin = 10;
-        params.rightMargin = 10;
-        params.topMargin = 10;
+        params.leftMargin = 5;
+        params.rightMargin = 5;
+        params.topMargin = 5;
+        params.bottomMargin = 5;
         params.weight = 1;
 
         p.setTransformationMethod(null);
-        p.setTextSize(18);
+        p.setTextSize(15);
         p.setTextColor(Color.parseColor("#6665FF"));
         p.setGravity(Gravity.CENTER);
         p.setLayoutParams(params);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            p.setElevation(2);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             p.setBackground(ContextCompat.getDrawable(PairMatchingActivity.this, R.drawable.background_item));
@@ -277,4 +317,16 @@ public class PairMatchingActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timerHandler.removeCallbacks(timerRunnable);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        timerHandler.removeCallbacks(timerRunnable);
+        startActivity(new Intent(PairMatchingActivity.this,PairMatchingPreviewActivity.class));
+    }
 }

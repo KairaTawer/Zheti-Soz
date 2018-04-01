@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zerotoone.n17r.zhetisoz">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>﻿
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.MainActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,24 +29,21 @@
             android:name=".Activities.AfterPairMatchingActivity"
             android:parentActivityName=".Activities.PairMatchingPreviewActivity" />
 
-        <receiver
-            android:name=".Models.MyAlarmReceiver"
-            android:process=":remote" >
-        </receiver>
-
         <service
             android:name=".Services.RefreshWordsTask"
-            android:exported="true"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
-            <intent-filter>
-                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
-            </intent-filter>
+            android:exported="true" >
         </service>
+
+        <receiver android:name=".Models.ResetAlarm" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <activity android:name=".Activities.TestingPreviewActivity" />
         <activity android:name=".Activities.TestingActivity" />
         <activity android:name=".Activities.TestingResultActivity" />
-        <activity android:name=".Activities.ResultListActivity"></activity>
+        <activity android:name=".Activities.ResultListActivity"/>
     </application>
 
 </manifest>

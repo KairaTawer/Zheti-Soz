@@ -31,20 +31,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:text="@string/zharaisyn"
             android:textColor="#fff"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/result"
-            android:layout_width="191dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="@string/pair_matching_result"
             android:textColor="#fff"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button_retry"
@@ -53,8 +55,10 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/retry_white"
             android:text="@string/retry"
+            android:textAllCaps="false"
             android:textSize="18sp"
-            android:textColor="#6665FF" />
+            android:textColor="#6665FF"
+            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
 

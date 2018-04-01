@@ -7,36 +7,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.android.gms.gcm.GcmNetworkManager;
-import com.google.android.gms.gcm.PeriodicTask;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.zerotoone.n17r.zhetisoz.Fragments.FirstFragment;
 import com.zerotoone.n17r.zhetisoz.Fragments.SecondFragment;
 import com.zerotoone.n17r.zhetisoz.Fragments.ThirdFragment;
-import com.zerotoone.n17r.zhetisoz.Models.MyAlarmReceiver;
 import com.zerotoone.n17r.zhetisoz.Models.UsedWordsContract;
+import com.zerotoone.n17r.zhetisoz.Models.UsedWordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.Models.WordsDbHelper;
 import com.zerotoone.n17r.zhetisoz.R;
 import com.zerotoone.n17r.zhetisoz.Services.RefreshWordsTask;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Ref;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -47,13 +39,16 @@ public class MainActivity extends AppCompatActivity implements
         ThirdFragment.OnFragmentInteractionListener {
 
     FragmentTransaction fragmentTransaction;
+    private AlarmManager am;
+    private PendingIntent pi;
+    public static Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("TAG_ONCREATE", "Activity Creted");
+        Log.d("TAG_ONCREATE", "Activity Created");
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, new FirstFragment(), "MY_FRAGMENT");
@@ -109,54 +104,50 @@ public class MainActivity extends AppCompatActivity implements
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putInt("PROGRESS",progress + 7);
             editor.apply();
+
+            WordsDbHelper mUnusedDBHelper = new WordsDbHelper(this);
+            try {
+                mUnusedDBHelper.CopyDataBaseFromAsset();
+                Log.d("TAG_Database","Database just created");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND,0);
+            calendar.set(Calendar.MILLISECOND,0);
+            pi = PendingIntent.getService(this, 101,
+                    new Intent(this, RefreshWordsTask.class),PendingIntent.FLAG_UPDATE_CURRENT);
+
+            am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            if(calendar.before(Calendar.getInstance())) {
+                calendar.add(Calendar.DATE, 1);
+                Log.d("TAG_Added","alarm set to tomorrow");
+            }
+
+            am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+
+            mSharedPreferences.edit().putLong("alarm_date",calendar.getTimeInMillis()).apply();
+
         }
 
-        startService(new Intent(this, RefreshWordsTask.class));
-
-//        scheduleAlarm();
-//
-//        String tag = "periodic";
-//
-//        GcmNetworkManager mScheduler = GcmNetworkManager.getInstance(getApplicationContext());
-
-//        long periodSecs = 30L;
-//
-//        PeriodicTask periodic = new PeriodicTask.Builder()
-//                .setService(RefreshWordsTask.class)
-//                .setPeriod(periodSecs)
-//                .setTag(tag)
-//                .setPersisted(true)
-//                .setUpdateCurrent(true).setRequiredNetwork(com.google.android.gms.gcm.Task.NETWORK_STATE_CONNECTED)
-//                .build();
-//        mScheduler.schedule(periodic);
-
     }
-
-//    public void scheduleAlarm() {
-//        Calendar cur_cal = new GregorianCalendar();
-//        cur_cal.setTimeInMillis(System.currentTimeMillis());//set the current time and date for this calendar
-//
-//        Calendar cal = new GregorianCalendar();
-//        cal.set(Calendar.HOUR_OF_DAY, 2);
-//        cal.set(Calendar.MINUTE, 15);
-//        Intent intent = new Intent(MainActivity.this, RefreshWordsTask.class);
-//        PendingIntent pintent = PendingIntent.getService(MainActivity.this, 0, intent, 0);
-//        AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 30*1000, pintent);
-//    }
 
     public void getRandom7Words(int progress) {
 
         try {
 
-            WordsDbHelper mDbHelper = new WordsDbHelper(this);
+            UsedWordsDbHelper mDbHelper = new UsedWordsDbHelper(this);
             CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("database.csv")));
             String next[];
             List<String[]> allWords = reader.readAll();
 
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-            for (int i = progress; i < progress + 7; i++)  {
+            for (int i = 7; i < 14; i++)  {
                 next = allWords.get(i);
 
                 ContentValues values = new ContentValues();
@@ -172,8 +163,6 @@ public class MainActivity extends AppCompatActivity implements
 
             Log.d("TAG", "Service Triggered firstly");
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

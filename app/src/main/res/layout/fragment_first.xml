@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="65dp"
-    android:paddingLeft="26dp"
-    android:paddingRight="26dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     android:paddingTop="15dp"
     tools:context=".Activities.MainActivity">
 
@@ -35,11 +35,12 @@
                 android:id="@+id/pair_matching"
                 android:layout_height="match_parent"
                 android:layout_column="0"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_item"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -55,7 +56,8 @@
                     android:gravity="center_horizontal"
                     android:text="@string/pair_matching"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -63,11 +65,12 @@
                 android:id="@+id/testing"
                 android:layout_height="match_parent"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/background_item"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -83,7 +86,8 @@
                     android:gravity="center_horizontal"
                     android:text="@string/qanda"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </TableRow>
@@ -96,18 +100,18 @@
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_column="0"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_item"
+                android:background="@drawable/background_item_grey"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/oval" />
+                    android:src="@drawable/padlock" />
 
                 <TextView
                     android:layout_width="110dp"
@@ -117,25 +121,26 @@
                     android:gravity="center_horizontal"
                     android:text="@string/soon"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_item"
+                android:background="@drawable/background_item_grey"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/oval" />
+                    android:src="@drawable/padlock" />
 
                 <TextView
                     android:layout_width="110dp"
@@ -145,7 +150,8 @@
                     android:gravity="center_horizontal"
                     android:text="@string/soon"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </TableRow>
@@ -158,18 +164,18 @@
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_column="0"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_item"
+                android:background="@drawable/background_item_grey"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/oval" />
+                    android:src="@drawable/padlock" />
 
                 <TextView
                     android:layout_width="110dp"
@@ -179,24 +185,25 @@
                     android:gravity="center_horizontal"
                     android:text="@string/soon"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/background_item"
+                android:background="@drawable/background_item_grey"
+                android:elevation="2dp"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="5dp">
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/oval" />
+                    android:src="@drawable/padlock" />
 
                 <TextView
                     android:layout_width="110dp"
@@ -206,7 +213,8 @@
                     android:gravity="center_horizontal"
                     android:text="@string/soon"
                     android:textColor="#33455B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
 
